@@ -30,3 +30,5 @@
  ```
 
  - MessageQueue 사용해보기
+
+ - transaction 내역 `const result = items.filter(item => item.rasaction.timestamp)` 로 필터링
