@@ -1,38 +1,35 @@
-import caver, { getTokenURI } from "./klaytn-util.js";
-import { KIP7_EVENT_TRANSFER_SIGNATURE } from "./types.js";
+import Caver from "caver-js";
+
+// const caver = new Caver("https://api.cypress.klaytn.net:8651");
+const caver = new Caver('https://klaytn01.fandom.finance/');
 
 async function decodeKip7TransferLogs(txHash) {
   try {
-    // const receipt = await caver.rpc.klay.getTransactionReceipt(txHash);
-    const receipt = await caver.klay.getTransactionReceipt(txHash);
-    console.log(receipt);
+    const receipt = await caver.rpc.klay.getTransactionReceipt(txHash);
+    // console.log(txHash);
+    // console.log(receipt);
 
-    // if (receipt.status === "0x1" && receipt.logs.length !== 0) {
-    if (receipt.status === true && receipt.logs.length !== 0) {
-      for (const log of receipt.logs) {
+    if (receipt.status === '0x1' && receipt.logs.length !== 0) {
+      receipt.logs.forEach(log => {
         const { topics } = log;
         const contract = log.address;
         console.log(topics);
-        if (
-          topics[0] === KIP7_EVENT_TRANSFER_SIGNATURE &&
-          topics.length === 4
-        ) {
-          console.log("=================================================");
-          console.log(log);
-          console.log("=================================================");
-          const from = caver.abi.decodeParameter("address", topics[1]);
-          const to = caver.abi.decodeParameter("address", topics[2]);
-          // const tokenId = caver.abi.decodeParameter("uint256", topics[3]);
-          // const tokenURI = await getTokenURI(contract, tokenId);
-          return {
-            contract,
-            from,
-            to,
-            // tokenId,
-            // tokenURI,
-          };
-        }
-      }
+        console.log("=================================================");
+        console.log(log);
+        console.log("=================================================");
+        const from = caver.abi.decodeParameter("address", topics[1]);
+        const to = caver.abi.decodeParameter("address", topics[2]);
+      });
+      // for (const log of receipt.logs) {
+      //   const { topics } = log;
+      //   const contract = log.address;
+      //   console.log(topics);
+      //   console.log("=================================================");
+      //   console.log(log);
+      //   console.log("=================================================");
+      //   const from = caver.abi.decodeParameter("address", topics[1]);
+      //   const to = caver.abi.decodeParameter("address", topics[2]);
+      // }
     }
     return false;
   } catch (error) {
@@ -41,8 +38,8 @@ async function decodeKip7TransferLogs(txHash) {
 }
 
 (async () => {
-  const TX_HASH = '0xe49ed96859249332fa488afb1fb5c574fd46c066cf04ee57618ff366a9bc46f1';
-  // const TX_HASH = '0x218eee604cf2559c62fabbb3d6ac30d8f44cecc2ab1bdf119cf0bc0a9698f310'; // Deploy
+  const TX_HASH = '0xcd3bdca0b65a06e12a671f9505028df52a7ad602eddd416f3cb6ed26dc3ecbea'; // Deploy
+  // console.log(caver);
   decodeKip7TransferLogs(TX_HASH);
 
   /*
