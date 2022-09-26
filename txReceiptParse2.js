@@ -41,7 +41,7 @@ async function decodeKip7TransferLogs(txHash) {
 }
 
 (async () => {
-  const TX_HASH = '0xe49ed96859249332fa488afb1fb5c574fd46c066cf04ee57618ff366a9bc46f1';
+  const TX_HASH = '0xaac8ea713cfa90056f59c7d56f012e67e6be07a6f21a2ca61f3ef92903502c15';
   // const TX_HASH = '0x218eee604cf2559c62fabbb3d6ac30d8f44cecc2ab1bdf119cf0bc0a9698f310'; // Deploy
   decodeKip7TransferLogs(TX_HASH);
 
